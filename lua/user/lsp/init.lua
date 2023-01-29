@@ -10,23 +10,67 @@ lvim.lsp.diagnostics.virtual_text = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-  "java",
+    "json",
+    "c",
+    "cpp",
+    "go",
+    "python",
+    "javascript",
+    "typescript",
+    "tsx",
+    "yaml",
+    "html",
+    "css",
+    "markdown",
+    "svelte",
+    "graphql",
+    "bash",
+    "lua",
+    "vim",
+    "dockerfile",
+    "gitignore",
 }
 
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
 
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "google_java_format", filetypes = { "java" } },
-  { command = "stylua", filetypes = { "lua" } },
-  { command = "shfmt", filetypes = { "sh", "zsh" } },
-  { command = "prettier", filetypes = { "css" } },
+-- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    { command = "google_java_format", filetypes = { "java" } },
+    { command = "stylua", filetypes = { "lua" } },
+    { command = "shfmt", filetypes = { "sh", "zsh" } },
+    { command = "prettier", filetypes = { "css" , "json" } },
+    { command = "clang_format", filetypes = { "cpp", "c"  } },
 }
 
--- lvim.lsp.on_attach_callback = function(client, bufnr)
--- end
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+    { command = "eslint_d", filetypes = { "javascript" } },
+    --{ command = "cpplint", filetypes = { "cpp", "c"  } },
+    --{ command = "cppcheck", filetypes = { "cpp", "c"  } },
+    --{ command = "clang_check", filetypes = { "cpp", "c"  } },
+    -- { command = "refactoring", filetypes = { "go", "javascript", "lua", "python", "typescript"  } },
+    { command = "golangci-lint", filetypes = { "go" } },
+    { command = "cfn-lint", filetypes = { "yaml", "json" } },
+}
 
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   { command = "eslint_d", filetypes = { "javascript" } },
--- }
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+lvim.lsp.on_attach_callback = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = augroup,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format({
+                    filter = function()
+                        --  only use null-ls for formatting instead of lsp server
+                        return client.name == "null-ls"
+                    end,
+                    bufnr = bufnr,
+                })
+            end,
+        })
+    end
+end
+

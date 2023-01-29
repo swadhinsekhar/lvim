@@ -159,6 +159,10 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd(
+	"BufReadPost",
+	{ command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]] }
+)
 -- vim.api.nvim_create_autocmd({ "ModeChanged" }, {
 --   callback = function()
 --     local luasnip = require "luasnip"

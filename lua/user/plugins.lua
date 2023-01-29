@@ -108,4 +108,27 @@ lvim.plugins = {
   -- https://github.com/jose-elias-alvarez/typescript.nvim
   -- "rmagatti/auto-session",
   -- "rmagatti/session-lens"
+
+    -- tabular formating
+    "godlygeek/tabular",
+
+    -- git plugins
+    "tpope/vim-fugitive",
+
+    -- management of tag files
+    "ludovicchabant/vim-gutentags",
+    "skywind3000/gutentags_plus",
+    "brookhong/cscope.vim",
+    "tpope/vim-unimpaired",
+    "junegunn/fzf",
+    "junegunn/fzf.vim",
+    -- install without yarn or npm
+	{
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && npm install",
+		setup = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
+	},
 }
