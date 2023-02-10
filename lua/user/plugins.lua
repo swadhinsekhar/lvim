@@ -108,6 +108,13 @@ lvim.plugins = {
   -- https://github.com/jose-elias-alvarez/typescript.nvim
   -- "rmagatti/auto-session",
   -- "rmagatti/session-lens"
+  -- LSP signature hint as you type
+   "ray-x/lsp_signature.nvim",
+
+  "p00f/clangd_extensions.nvim",
+
+  -- startuptime info
+  "dstein64/vim-startuptime",
 
     -- tabular formating
     "godlygeek/tabular",
@@ -124,6 +131,7 @@ lvim.plugins = {
     "junegunn/fzf.vim",
     -- install without yarn or npm
 	{
+    "ellisonleao/glow.nvim",
 		"iamcco/markdown-preview.nvim",
 		run = "cd app && npm install",
 		setup = function()

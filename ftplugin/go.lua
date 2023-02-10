@@ -3,6 +3,10 @@ if not status_ok then
   return
 end
 
+vim.opt_local.shiftwidth = 4
+vim.opt_local.tabstop = 4
+vim.opt.cmdheight=1
+
 local opts = {
   mode = "n", -- NORMAL mode
   prefix = "<leader>",
