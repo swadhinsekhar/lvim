@@ -1,10 +1,10 @@
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "prettier", filetypes = { "json" } },
+  { command = "prettier", filetypes = { "json", "markdown" } },
 }
 local diagnostics = require "lvim.lsp.null-ls.diagnostics"
 diagnostics.setup {
-  { command = "jsonlint", filetypes = { "json" } },
+  { command = "jsonlint", filetypes = { "json" , "markdown"} },
 }
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jsonls" })
 

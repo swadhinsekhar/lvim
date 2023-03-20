@@ -42,6 +42,9 @@ lvim.builtin.cmp.formatting.source_names = {
 lvim.builtin.cmp.formatting = {
      format = require("tailwindcss-colorizer-cmp").formatter
 }
+lvim.builtin.cmp.sources = vim.tbl_filter(function(source)
+      return source.name ~= "buffer"
+    end, lvim.builtin.cmp.sources)
 -- lvim.builtin.autopairs.active = false
 -- vim.g.netrw_browse_split = 0
 -- vim.g.netrw_banner = 0

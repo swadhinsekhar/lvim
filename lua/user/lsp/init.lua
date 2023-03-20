@@ -5,6 +5,8 @@ require "user.lsp.languages.js-ts"
 require "user.lsp.languages.sh"
 require "user.lsp.languages.emmet"
 require "user.lsp.languages.css"
+require "user.lsp.languages.json.lua"
+require "user.lsp.languages.md.lua"
 
 lvim.lsp.diagnostics.virtual_text = false
 
@@ -39,13 +41,13 @@ formatters.setup {
     { command = "google_java_format", filetypes = { "java" } },
     { command = "stylua", filetypes = { "lua" } },
     { command = "shfmt", filetypes = { "sh", "zsh" } },
-    { command = "prettier", filetypes = { "css" , "json" } },
+    { command = "prettier", filetypes = { "css" , "json" , "markdown"} },
     { command = "clang_format", filetypes = { "cpp", "c"  } },
 }
 
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-    { command = "eslint_d", filetypes = { "javascript" } },
+    { command = "eslint_d", filetypes = { "javascript", "json", "markdown" } },
     --{ command = "cpplint", filetypes = { "cpp", "c"  } },
     --{ command = "cppcheck", filetypes = { "cpp", "c"  } },
     --{ command = "clang_check", filetypes = { "cpp", "c"  } },
@@ -73,4 +75,11 @@ lvim.lsp.on_attach_callback = function(client, bufnr)
         })
     end
 end
+
+local lsp_manager = require "lvim.lsp.manager"
+lsp_manager.setup("tailwindcss",  {
+  filetypes = { "html", "vue", "typescriptreact", "javascriptreact" , "markdown", "json"},
+--  on_init = require("lvim.lsp").common_on_init,
+--  capabilities = require("lvim.lsp").common_capabilities(),
+})
 
